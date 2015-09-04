@@ -37,7 +37,18 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        displayPrice(quantity * 5);
+        String priceMessage = "";
+        priceMessage = "Total: $" + quantity*5+ "\nThank you!";
+        displayMessage(priceMessage);
+        //displayPrice(quantity * 5);
+    }
+
+    /**
+     * This method displays the given text on the screen.
+     */
+    private void displayMessage(String message) {
+        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
+        priceTextView.setText(message);
     }
 
     /**
