@@ -3,4 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="name_text">Name</string>
+    <string name="quantity_text">QUANTITY</string>
+    <string name="toppings">TOPPINGS</string>
+    <string name="whipped_cream">WHIPPED CREAM</string>
+    <string name="chocolate">CHOCOLATE</string>
+    <string name="order_summary">ORDER SUMMARY</string>
+    <string name="order">ORDER</string>
+    <string name="thank_you">Thank you!</string>
 </resources>

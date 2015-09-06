@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sólo Jave</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="name_text">Nombre</string>
+    <string name="quantity_text">Cantidad</string>
+    <string name="toppings">Ingrediente</string>
+    <string name="whipped_cream">Crema batida</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="order_summary">ORDER SUMMARY</string>
+    <string name="order">ORDENAR</string>
+    <string name="thank_you">Gracias!</string>
+</resources>

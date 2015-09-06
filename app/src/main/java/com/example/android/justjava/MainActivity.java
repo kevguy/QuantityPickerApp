@@ -193,7 +193,7 @@ public class MainActivity extends ActionBarActivity {
         summaryMessage = summaryMessage + isAddChocolate + "\n";
 
         summaryMessage = summaryMessage + "Total: $" + price + "\n";
-        summaryMessage += "Thank you!";
+        summaryMessage += getString(R.string.thank_you);
 
         return summaryMessage;
     }
