@@ -1,6 +1,9 @@
 package com.example.android.justjava;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 /**
  * This app displays an order form to order coffee.
@@ -86,7 +90,37 @@ public class MainActivity extends ActionBarActivity {
 
         String orderMessage = createOrderSummary(price, username);
         //Log.v("MainActivity", "The price is " + price);
-        displayMessage(orderMessage);
+        // Display message on screen
+        //displayMessage(orderMessage);
+
+        // Trigger email app with order summary
+        sendEmail("JustJava order for " + username, orderMessage);
+
+    }
+
+    public void sendEmail(String subjectText, String bodyText){
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "abc@gmail.com", null));
+
+        PackageManager packageManager = getPackageManager();
+        List activities = packageManager.queryIntentActivities(emailIntent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        boolean isIntentSafe = activities.size() > 0;
+
+        if (isIntentSafe) {
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, subjectText);
+            emailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
+            startActivity(Intent.createChooser(emailIntent, "Send email..."));
+        }
+        else {
+            Context context = getApplicationContext();
+            CharSequence text = "Not supported";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
     }
 
     /**
