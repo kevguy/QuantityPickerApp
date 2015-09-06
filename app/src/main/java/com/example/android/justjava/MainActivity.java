@@ -1,11 +1,14 @@
 package com.example.android.justjava;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -15,8 +18,8 @@ import java.text.NumberFormat;
 public class MainActivity extends ActionBarActivity {
 
     int quantity = 0;
-    Boolean isAddWhippedCream = false;
-    Boolean isAddChocolate = false;
+    boolean isAddWhippedCream = false;
+    boolean isAddChocolate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +28,51 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void increment(View view) {
-        quantity += 1;
+        if (quantity == 100) {
+            Context context = getApplicationContext();
+            CharSequence text = "You cannot have more than 100 coffees";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+        else {
+            quantity += 1;
+        }
+
         int price = calculatePrice(quantity);
         display(quantity);
         displayPrice(price);
     }
 
     public void decrement(View view) {
-        if (quantity != 0)
-        {
+        if (quantity != 0) {
             quantity -= 1;
+        }
+        else {
+            Context context = getApplicationContext();
+            CharSequence text = "Zero coffees is the minimum";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
         int price = calculatePrice(quantity);
         display(quantity);
+        displayPrice(price);
+    }
+
+    public void isWhippedCream(View view){
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        isAddWhippedCream = whippedCreamCheckBox.isChecked();
+        int price = calculatePrice(quantity);
+        displayPrice(price);
+    }
+
+    public void isChocolate(View view){
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_check_box);
+        isAddChocolate = chocolateCheckBox.isChecked();
+        int price = calculatePrice(quantity);
         displayPrice(price);
     }
 
@@ -45,14 +80,11 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        EditText nameEditText = (EditText) findViewById(R.id.name_edit_text);
+        String username = nameEditText.getText().toString();
         int price = calculatePrice(quantity);
-        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
-        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_check_box);
 
-        isAddWhippedCream = whippedCreamCheckBox.isChecked();
-        isAddChocolate = chocolateCheckBox.isChecked();
-
-        String orderMessage = createOrderSummary(price, isAddWhippedCream, isAddChocolate);
+        String orderMessage = createOrderSummary(price, username);
         //Log.v("MainActivity", "The price is " + price);
         displayMessage(orderMessage);
     }
@@ -91,13 +123,34 @@ public class MainActivity extends ActionBarActivity {
      * @return the price
      */
     private int calculatePrice(int quantity) {
-        return quantity * 5;
+        int price = 0;
+
+        if (isAddWhippedCream) {
+            price += 1;
+        }
+
+        if (isAddChocolate) {
+            price += 2;
+        }
+
+        price += 5;
+        price *= quantity;
+
+        return price;
     }
 
-    private String createOrderSummary(int price, Boolean isAddWhippedCream, Boolean isAddChocolate){
+
+    /**
+     * Create summary of the order.
+     *
+     * @param price of the order
+     * @return text summary
+     */
+    private String createOrderSummary(int price, String username){
         String summaryMessage = "";
 
-        summaryMessage += "Name: Kevguy\n";
+        summaryMessage += "Name: ";
+        summaryMessage = summaryMessage + username + "\n";
         summaryMessage = summaryMessage + "Quantity: " + quantity + "\n";
 
         summaryMessage += "Add whipped cream? ";
