@@ -46,12 +46,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void decrement(View view) {
-        if (quantity != 0) {
+        if (quantity > 1) {
             quantity -= 1;
         }
         else {
             Context context = getApplicationContext();
-            CharSequence text = "Zero coffees is the minimum";
+            CharSequence text = "1 cup of coffee is the minimum";
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
