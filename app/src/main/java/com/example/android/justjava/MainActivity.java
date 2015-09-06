@@ -15,6 +15,8 @@ import java.text.NumberFormat;
 public class MainActivity extends ActionBarActivity {
 
     int quantity = 0;
+    Boolean isAddWhippedCream = false;
+    Boolean isAddChocolate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,13 @@ public class MainActivity extends ActionBarActivity {
      */
     public void submitOrder(View view) {
         int price = calculatePrice(quantity);
-        String orderMessage = createOrderSummary(price);
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_check_box);
+
+        isAddWhippedCream = whippedCreamCheckBox.isChecked();
+        isAddChocolate = chocolateCheckBox.isChecked();
+
+        String orderMessage = createOrderSummary(price, isAddWhippedCream, isAddChocolate);
         //Log.v("MainActivity", "The price is " + price);
         displayMessage(orderMessage);
     }
@@ -66,7 +74,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
-     * This method displays the given quantity value on the screen.
+     * This method displays the given quantity value on the screen.CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        Boolean isAddWhippedCream = whippedCreamCheckBox.isChecked();
+        CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_check_box);
+        Boolean isAddChocolate = chocolateCheckBox.isChecked();
      */
     private void display(int number) {
         TextView quantityTextView = (TextView) findViewById(
@@ -83,12 +94,20 @@ public class MainActivity extends ActionBarActivity {
         return quantity * 5;
     }
 
-    private String createOrderSummary(int price){
-        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
-        Boolean isAddWhippedCream = whippedCreamCheckBox.isChecked();
-        if (isAddWhippedCream == true)
-            return "Name: Kevguy\nQuantity: " + quantity + "\nAdd whipped cream? " + "true" + "\nTotal: $" + price + "\nThank you!";
-        else
-            return "Name: Kevguy\nQuantity: " + quantity + "\nAdd whipped cream? " + "false" + "\nTotal: $" + price + "\nThank you!";
+    private String createOrderSummary(int price, Boolean isAddWhippedCream, Boolean isAddChocolate){
+        String summaryMessage = "";
+
+        summaryMessage += "Name: Kevguy\n";
+        summaryMessage = summaryMessage + "Quantity: " + quantity + "\n";
+
+        summaryMessage += "Add whipped cream? ";
+        summaryMessage = summaryMessage + isAddWhippedCream + "\n";
+        summaryMessage += "Add chocolate? ";
+        summaryMessage = summaryMessage + isAddChocolate + "\n";
+
+        summaryMessage = summaryMessage + "Total: $" + price + "\n";
+        summaryMessage += "Thank you!";
+
+        return summaryMessage;
     }
 }

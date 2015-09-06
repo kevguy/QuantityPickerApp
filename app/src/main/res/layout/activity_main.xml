@@ -30,6 +30,17 @@
             android:text="WHIPPED CREAM"
             />
 
+        <CheckBox
+            android:id = "@+id/chocolate_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:paddingTop="16dp"
+            android:paddingLeft="24dp"
+            android:paddingBottom="16dp"
+            android:text="CHOCOLATE"
+            />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
