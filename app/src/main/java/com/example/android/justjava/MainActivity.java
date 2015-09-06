@@ -2,7 +2,9 @@ package com.example.android.justjava;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -22,7 +24,9 @@ public class MainActivity extends ActionBarActivity {
 
     public void increment(View view) {
         quantity += 1;
+        int price = calculatePrice(quantity);
         display(quantity);
+        displayPrice(price);
     }
 
     public void decrement(View view) {
@@ -30,33 +34,35 @@ public class MainActivity extends ActionBarActivity {
         {
             quantity -= 1;
         }
+        int price = calculatePrice(quantity);
         display(quantity);
+        displayPrice(price);
     }
 
     /**
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        String priceMessage = "";
-        priceMessage = "Total: $" + quantity*5+ "\nThank you!";
-        displayMessage(priceMessage);
-        //displayPrice(quantity * 5);
+        int price = calculatePrice(quantity);
+        String orderMessage = createOrderSummary(price);
+        //Log.v("MainActivity", "The price is " + price);
+        displayMessage(orderMessage);
     }
 
     /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(message);
     }
 
     /**
      * This method displays the given price on the screen.
      */
     private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+        orderSummaryTextView.setText(NumberFormat.getCurrencyInstance().format(number));
     }
 
     /**
@@ -66,5 +72,23 @@ public class MainActivity extends ActionBarActivity {
         TextView quantityTextView = (TextView) findViewById(
                 R.id.quantity_text_view);
         quantityTextView.setText("" + number);
+    }
+
+    /**
+     * Calculates the price of the order based on the current quantity.
+     *
+     * @return the price
+     */
+    private int calculatePrice(int quantity) {
+        return quantity * 5;
+    }
+
+    private String createOrderSummary(int price){
+        CheckBox whippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_check_box);
+        Boolean isAddWhippedCream = whippedCreamCheckBox.isChecked();
+        if (isAddWhippedCream == true)
+            return "Name: Kevguy\nQuantity: " + quantity + "\nAdd whipped cream? " + "true" + "\nTotal: $" + price + "\nThank you!";
+        else
+            return "Name: Kevguy\nQuantity: " + quantity + "\nAdd whipped cream? " + "false" + "\nTotal: $" + price + "\nThank you!";
     }
 }
